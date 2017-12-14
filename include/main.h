@@ -19,12 +19,7 @@
  * PROS contains FreeRTOS (http://www.freertos.org) whose source code may be
  * obtained from http://sourceforge.net/projects/freertos/files/ or on request.
  */
- #define leftenctop = 1
- #define leftencbottom = 2
- #define rightenctop = 3
- #define rightencbottom = 4
- #define smallarmtop = 5
- #define smallarmbottom = 6
+
 
 #ifndef MAIN_H_
 
@@ -41,12 +36,12 @@ Encoder leftD;
 Encoder rightD;
 Encoder smallarmenc;
 
-#define leftenctop = 1
-#define leftencbottom = 2
-#define rightenctop = 3
-#define rightencbottom = 4
-#define smallarmtop = 5
-#define smallarmbottom = 6
+#define leftenctop 1
+#define leftencbottom 2
+#define rightenctop 3
+#define rightencbottom 4
+#define smallarmtop 5
+#define smallarmbottom 6
 #define	barmpot 1
 #define clawpot 2
 #define copen 1
