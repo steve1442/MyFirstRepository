@@ -10,10 +10,16 @@ const int cbendpos = 100, cbstartpos = 0, cb_pwm = 127, arm_const = 127;
 // smallarm 7
 // rightmiddle 9
 // rightback 10
-const int clawdp = 3, stop = 0, maxmenus = 25, bound = 100;
+int leftback = 1, leftfront = 2, clawdp = 3, mogo = 4,
+smallarm = 7, bigarm = 8, rightfront = 9, rightback = 10;
+
+const int stop = 0, maxmenus = 25, bound = 100;
 int stack = 0, menu = 0, lastV = 0, armspeed = 10, armheight = 70, cbhieght = 1000, cbspeed = 10, selectedauton = 0;
 bool overrided = false;
-struct motor{char m1, m2, m3, m4, m5, m6, m7, m8, m9, m10;}motor; // structure to hold the motor pwm because its smaller
+                      //M1 M2 M3 M4 M5 M6 M7 M8 M9 M10
+int motor[11] = {-999,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int inver[11] = {-999,  -1, 1, 1, 1, 0, 0,-1,-1,-1,-1};
+//struct motor{char m1, m2, m3, m4, m5, m6, m7, m8, m9, m10;}motor; // structure to hold the motor pwm because its smaller
 struct last{int arm, override, su, sd, co, cc, mo, mc; int lj;}last; // a structure for the last values
 void lcd(const char *line1, const char *line2)
 {
@@ -94,18 +100,18 @@ void lcdmenu(){
 }
 void drive(int left, int right) // drive func
 {
-  motor.m1 = left;
-  motor.m2 = left;
-  motor.m9 = -right;
-  motor.m10 = -right;
+	motor[leftfront] = left * inver[leftfront];
+	motor[leftback] = left * inver[leftback];
+	motor[rightfront] = right * inver[rightfront];
+	motor[rightback] = right * inver[rightback];
 }
-void arm(int pwm){motor.m8 = -pwm;} // simple arm func
-void cb(int pwm){motor.m7 = -pwm;} // chainbar func
-void MOGO(int pwm){motor.m4 = pwm;} // mogo func
-void claw(int pwm){motor.m3 = pwm;} // claw func
+void arm(int pwm){motor[bigarm] = -pwm;} // simple arm func
+void cb(int pwm){motor[smallarm] = -pwm;} // chainbar func
+void MOGO(int pwm){motor[mogo] = pwm;} // mogo func
+void claw(int pwm){motor[clawdp] = pwm;} // claw func
 void update(){ // updates the motors and hopefully the digital ports soon
-	motorSet(1, motor.m1); motorSet(2, motor.m2); motorSet(3, motor.m3); motorSet(4, motor.m4); motorSet(5, motor.m5);    /*Current error with my digital ports not working in the update*/
-	motorSet(6, motor.m6); motorSet(7, motor.m7); motorSet(8, motor.m8); motorSet(9, motor.m9); motorSet(10, motor.m10);
+	motorSet(1, motor[1]); motorSet(2, motor[2]); motorSet(3, motor[3]); motorSet(4, motor[4]); motorSet(5, motor[5]);    /*Current error with my digital ports not working in the update*/
+	motorSet(6, motor[6]); motorSet(7, motor[7]); motorSet(8, motor[8]); motorSet(9, motor[9]); motorSet(10, motor[10]);
 	delay(20);}
 int previous;
 void pid(int Kp, int Kd, int val, int currentval)
@@ -185,13 +191,13 @@ delay(20);}
 void recordcode(){ // simple record auton code
 	for(int t = 0; t < 1020; t++){
 		controller(); update();
-		auton[t].m1 = motor.m1; auton[t].m2 = motor.m2; auton[t].m3 = motor.m3;	auton[t].m4 = motor.m4; auton[t].m5 =	motor.m5;
-		auton[t].m6 = motor.m6;	auton[t].m7 = motor.m7;	auton[t].m8 = motor.m8;	auton[t].m9 = motor.m9;	auton[t].m10 = motor.m10;
+		auton[t].m1 = motor[1]; auton[t].m2 = motor[2]; auton[t].m3 = motor[3];	auton[t].m4 = motor[4]; auton[t].m5 =	motor[5];
+		auton[t].m6 = motor[6];	auton[t].m7 = motor[7];	auton[t].m8 = motor[8];	auton[t].m9 = motor[9];	auton[t].m10 = motor[10];
 		wait(10);}}
 void reruncode(){ // totally not a stall code ;) hopefully they dont read this again // ignore that <- // just a rerun code to run what we recorded
 	for(int i = 0; i < 1020; i++){
-		motor.m1 = auton[i].m1;	motor.m2 = auton[i].m2;	motor.m3 = auton[i].m3;	motor.m4 = auton[i].m4;	motor.m5 = auton[i].m5;
-		motor.m6 = auton[i].m6;	motor.m7 = auton[i].m7;	motor.m8 = auton[i].m8;	motor.m9 = auton[i].m9;	motor.m10 = auton[i].m10;
+		motor[1] = auton[i].m1;	motor[2] = auton[i].m2;	motor[3] = auton[i].m3;	motor[4] = auton[i].m4;	motor[5] = auton[i].m5;
+		motor[6] = auton[i].m6;	motor[7] = auton[i].m7;	motor[8] = auton[i].m8;	motor[9] = auton[i].m9;	motor[10] = auton[i].m10;
 		update(); wait(10);}}
 void savecode(){  // just a program to print out the values to a screen so we can copy paste it into our code
 	printf("\nint motor1[buffer] = {");for(int n = 0; n < buffer; n++){printf("%d,", auton[n].m1);}printf("};");wait(1000);
