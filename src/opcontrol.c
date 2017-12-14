@@ -94,13 +94,13 @@ void lcdmenu(){
 }
 void drive(int left, int right) // drive func
 {
-  motor.m1 = -left;
+  motor.m1 = left;
   motor.m2 = left;
   motor.m9 = -right;
-  motor.m10 = right;
+  motor.m10 = -right;
 }
-void arm(int pwm){motor.m8 = pwm;} // simple arm func
-void cb(int pwm){motor.m7 = pwm;} // chainbar func
+void arm(int pwm){motor.m8 = -pwm;} // simple arm func
+void cb(int pwm){motor.m7 = -pwm;} // chainbar func
 void MOGO(int pwm){motor.m4 = pwm;} // mogo func
 void claw(int pwm){motor.m3 = pwm;} // claw func
 void update(){ // updates the motors and hopefully the digital ports soon
