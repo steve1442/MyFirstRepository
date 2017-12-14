@@ -19,6 +19,12 @@
  * PROS contains FreeRTOS (http://www.freertos.org) whose source code may be
  * obtained from http://sourceforge.net/projects/freertos/files/ or on request.
  */
+ #define leftenctop = 1
+ #define leftencbottom = 2
+ #define rightenctop = 3
+ #define rightencbottom = 4
+ #define smallarmtop = 5
+ #define smallarmbottom = 6
 
 #ifndef MAIN_H_
 
@@ -34,10 +40,17 @@ extern "C" {
 Encoder leftD;
 Encoder rightD;
 Encoder smallarmenc;
-const int
-leftenctop = 1, leftencbottom = 2,
-rightenctop = 3, rightencbottom = 4,
-smallarmtop = 5, smallarmbottom = 6;
+
+#define leftenctop = 1
+#define leftencbottom = 2
+#define rightenctop = 3
+#define rightencbottom = 4
+#define smallarmtop = 5
+#define smallarmbottom = 6
+#define	barmpot 1
+#define clawpot 2
+#define copen 1
+#define cclose 0
 #define buffer 1020
 struct auton { char m1, m2, m3, m4, m5, m6, m7, m8, m9 ,m10; bool dgtl4, dgtl5; }auton[buffer];
 

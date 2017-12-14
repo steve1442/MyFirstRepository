@@ -1,20 +1,18 @@
 	#include "main.h"
 
-	#define copen 1
-	#define cclose 0
 
 	const int ground = 70, armthing[10] = {70,70,200,500,630,810,7,8,9,10};  // for 0 then make it either 49 or 75
 	const int cbposition[5] = {1310};
-	const int cbendpos = 100, cbstartpos = 0, cb_pwm = 127, arm_const = 127,
-	leftmiddle = 2, leftback = 1,
-	rightmiddle = 9, rightback = 10,
-	smallarm = 7,
-	bigarm = 3,
-	mogodp = 4,
-	clawdp = 3, stop = 0, maxmenus = 25, bound = 100,
+	const int cbendpos = 100, cbstartpos = 0, cb_pwm = 127, arm_const = 127;
+	// leftback 1
+	// leftmiddle 2
+	// bigarm 8
+	// mogodp 4
+	// smallarm 7
+	// rightmiddle 9
+	// rightback 10	
 
-	barmpot = 1,
-	clawpot = 2;
+	const int clawdp = 3, stop = 0, maxmenus = 25, bound = 100;
 
 	int stack = 0, menu = 0, lastV = 0, armspeed = 10, armheight = 70, cbhieght = 1000, cbspeed = 10, selectedauton = 0;
 	bool overrided = false;
@@ -113,7 +111,7 @@
 	  motor.m10 = right;
 	}
 
-	void arm(int pwm){motor.m3 = pwm;} // simple arm func
+	void arm(int pwm){motor.m8 = pwm;} // simple arm func
 	void cb(int pwm){motor.m7 = pwm;} // chainbar func
 	void MOGO(int pwm){motor.m4 = pwm;} // mogo func
 	void claw(int pwm){motor.m3 = pwm;} // claw func
@@ -239,6 +237,5 @@ int previous;
 		taskDelete(CONTROLLER); // yea ur right we dont need this but i like to keep it out of good practice that if u start something u should end it
 		taskDelete(UPDATE);
 		taskDelete(LCDMENU);}
-
 	/*Tetris:d=4,o=5,b=160:d6,32p,c.6,32p,8a,8c6,8a#,16a,16g,f,c,8a,8c6,8g,8a,f,c,d,8d,8e,8g,8f,8e,8d,c,c,c*/ // tetris theme song for if we want any sound on a speaker because pros doesnt have  wav support
 	/* USSR_National_Anthem:d=4,o=5,b=250:f6, 2a#6, f.6, 8g6, 2a6, d6, d6, 2g6, f.6, 8d#6, 2f6, a#., 8a#, 2c6, c.6, 8d6, 2d#6, d#6, f6, 2g6, a.6, 8a#6, 2c.6, f6, 2d6, c.6, 8a#6, 2c6, a6, f6, 2a#6, a.6, 8g6, 2a6, d6, d6, 2g6, f.6, 8d#6, 2f6, a#., 8a#, 2a#6, a.6, 8g6, 1f6, 1d6, c6, a#6, a6, a#6, 2c.6, f6, 2f.6, 1a#6, a6, g6, f6, g6, 2a.6, d6, 2d6"*/
